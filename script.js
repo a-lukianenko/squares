@@ -13,9 +13,9 @@ class Squares {
     this.squares = document.createElement("div");
 
     this.addRowBtn = this.createBtn("addRow", "&plus;");
-    this.addRowBtn.addEventListener("click", this.addRow.bind(this, event));
+    this.addRowBtn.addEventListener("click", this.addRow.bind(this));
     this.addColBtn = this.createBtn("addColumn", "&plus;");
-    this.addColBtn.addEventListener("click", this.addCol.bind(this, event));
+    this.addColBtn.addEventListener("click", this.addCol.bind(this));
 
     this.removeRowBtn = this.createBtn("removeRow", "&minus;");
     this.removeRowBtn.addEventListener("click", this.removeRow.bind(this));
@@ -26,11 +26,11 @@ class Squares {
       const target = event.target;
       if (target.className === "square") {
         if (this.columns > 1) {
-          this.removeColBtn.style.left = `${target.offsetLeft}px`;
+          this.removeColBtn.style.left = target.offsetLeft + "px";
           this.removeColBtn.style.visibility = "visible";
         }
         if (this.rows > 1) {
-          this.removeRowBtn.style.top = `${target.offsetTop}px`;
+          this.removeRowBtn.style.top = target.offsetTop + "px";
           this.removeRowBtn.style.visibility = "visible";
         }
       }
@@ -116,15 +116,14 @@ class Squares {
   removeRow() {
     if (this.rows > 1) {
       let offsetTop = this.removeRowBtn.offsetTop;
-      this.removeRowBtn.style.visibility = this.removeColBtn.style.visibility =
-        "hidden";
+      this.removeRowBtn.style.visibility = "hidden";
 
       let squares = [...document.querySelectorAll(".square")].slice(
         -this.columns
       );
 
       if (offsetTop === squares.slice(-1)[0].offsetTop) {
-        this.removeRowBtn.style.top = `${offsetTop - this.length - this.gap}px`;
+        this.removeRowBtn.style.top = offsetTop - this.length - this.gap + "px";
       }
       this.rows--;
       squares.forEach(square => square.remove());
@@ -135,8 +134,7 @@ class Squares {
   removeCol() {
     if (this.columns > 1) {
       let offsetLeft = this.removeColBtn.offsetLeft;
-      this.removeRowBtn.style.visibility = this.removeColBtn.style.visibility =
-        "hidden";
+      this.removeColBtn.style.visibility = "hidden";
 
       let squares = [...document.querySelectorAll(".square")];
       let coll = squares.filter((square, i) => (i + 1) % this.columns === 0);
@@ -160,7 +158,7 @@ class Squares {
     this.squares.className = "squares";
     this.squares.style.gridTemplate = `repeat(${this.columns}, ${this.length}px) / 
                                        repeat(${this.rows}, ${this.length}px)`;
-    this.squares.style.gridGap = `${this.gap}px`;
+    this.squares.style.gridGap = this.gap + "px";
 
     this.squaresWrapper.append(this.squares);
 
