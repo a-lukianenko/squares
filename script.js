@@ -13,9 +13,9 @@ class Squares {
     this.squares = document.createElement("div");
 
     this.addRowBtn = this.createBtn("addRow", "&plus;");
-    this.addRowBtn.addEventListener("click", this.addRow.bind(this));
+    this.addRowBtn.addEventListener("click", this.addRow.bind(this, event));
     this.addColBtn = this.createBtn("addColumn", "&plus;");
-    this.addColBtn.addEventListener("click", this.addCol.bind(this));
+    this.addColBtn.addEventListener("click", this.addCol.bind(this, event));
 
     this.removeRowBtn = this.createBtn("removeRow", "&minus;");
     this.removeRowBtn.addEventListener("click", this.removeRow.bind(this));
@@ -42,8 +42,8 @@ class Squares {
         relatedTarget.className != "removeColumn" ||
         relatedTarget.className != "removeRow"
       ) {
-        this.removeColBtn.style.visibility = "hidden";
-        this.removeRowBtn.style.visibility = "hidden";
+        this.removeColBtn.style.visibility = this.removeRowBtn.style.visibility =
+          "hidden";
       }
     });
 
@@ -54,8 +54,8 @@ class Squares {
           target.className === "removeRow" ||
           target.className === "removeColumn"
         ) {
-          this.removeColBtn.style.visibility = "visible";
-          this.removeRowBtn.style.visibility = "visible";
+          this.removeColBtn.style.visibility = this.removeRowBtn.style.visibility =
+            "visible";
         }
       } else if (this.rows > 1 && this.columns == 1) {
         this.removeColBtn.style.visibility = "hidden";
@@ -76,8 +76,8 @@ class Squares {
         target.className === "removeRow" ||
         target.className === "removeColumn"
       ) {
-        this.removeColBtn.style.visibility = "hidden";
-        this.removeRowBtn.style.visibility = "hidden";
+        this.removeColBtn.style.visibility = this.removeRowBtn.style.visibility =
+          "hidden";
       }
     });
   }
@@ -86,16 +86,14 @@ class Squares {
     let btn = document.createElement("div");
     btn.className = className;
     btn.innerHTML = content;
-    btn.style.width = this.length + "px";
-    btn.style.height = this.length + "px";
+    btn.style.width = btn.style.height = this.length + "px";
     return btn;
   }
 
   createSquare() {
     let square = document.createElement("div");
     square.className = "square";
-    square.style.width = this.length + "px";
-    square.style.height = this.length + "px";
+    square.style.width = square.style.height = this.length + "px";
     return square;
   }
 
@@ -104,7 +102,7 @@ class Squares {
       this.squares.append(this.createSquare());
     }
     this.rows++;
-    this.squares.style.gridTemplateRows = `repeat(${this.rows}, 50px)`;
+    this.squares.style.gridTemplateRows = `repeat(${this.rows}, ${this.length}px)`;
   }
 
   addCol() {
@@ -112,41 +110,41 @@ class Squares {
       this.squares.append(this.createSquare());
     }
     this.columns++;
-    this.squares.style.gridTemplateColumns = `repeat(${this.columns}, 50px)`;
+    this.squares.style.gridTemplateColumns = `repeat(${this.columns}, ${this.length}px)`;
   }
 
   removeRow() {
     if (this.rows > 1) {
-      this.rows--;
-      this.removeRowBtn.style.visibility = "hidden";
-      this.removeColBtn.style.visibility = "hidden";
-
       let offsetTop = this.removeRowBtn.offsetTop;
-      let squares = [...document.querySelectorAll(".square")];
-      let coll = squares.filter(square => square.offsetTop == offsetTop);
+      this.removeRowBtn.style.visibility = this.removeColBtn.style.visibility =
+        "hidden";
 
-      if (this.removeRowBtn.offsetTop === squares.slice(-1)[0].offsetTop) {
+      let squares = [...document.querySelectorAll(".square")].slice(
+        -this.columns
+      );
+
+      if (offsetTop === squares.slice(-1)[0].offsetTop) {
         this.removeRowBtn.style.top = `${offsetTop - this.length - this.gap}px`;
       }
-      coll.forEach(square => square.remove());
+      this.rows--;
+      squares.forEach(square => square.remove());
       this.squares.style.gridTemplateRows = `repeat(${this.rows}, ${this.length}px)`;
     }
   }
 
   removeCol() {
     if (this.columns > 1) {
-      this.columns--;
-      this.removeRowBtn.style.visibility = "hidden";
-      this.removeColBtn.style.visibility = "hidden";
-
       let offsetLeft = this.removeColBtn.offsetLeft;
+      this.removeRowBtn.style.visibility = this.removeColBtn.style.visibility =
+        "hidden";
+
       let squares = [...document.querySelectorAll(".square")];
-      let coll = squares.filter(square => square.offsetLeft == offsetLeft);
-      if (this.removeColBtn.offsetLeft === squares.slice(-1)[0].offsetLeft) {
-        this.removeColBtn.style.left = `${
-          offsetLeft - this.length - this.gap
-        }px`;
+      let coll = squares.filter((square, i) => (i + 1) % this.columns === 0);
+      if (offsetLeft === squares.slice(-1)[0].offsetLeft) {
+        this.removeColBtn.style.left =
+          offsetLeft - this.length - this.gap + "px";
       }
+      this.columns--;
       coll.forEach(square => square.remove());
       this.squares.style.gridTemplateColumns = `repeat(${this.columns}, ${this.length}px)`;
     }
@@ -160,8 +158,8 @@ class Squares {
     }
 
     this.squares.className = "squares";
-    this.squares.style.gridTemplateColumns = `repeat(${this.columns}, ${this.length}px)`;
-    this.squares.style.gridTemplateRows = `repeat(${this.rows}, ${this.length}px)`;
+    this.squares.style.gridTemplate = `repeat(${this.columns}, ${this.length}px) / 
+                                       repeat(${this.rows}, ${this.length}px)`;
     this.squares.style.gridGap = `${this.gap}px`;
 
     this.squaresWrapper.append(this.squares);
