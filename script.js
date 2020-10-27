@@ -3,10 +3,10 @@ window.onload = function () {
 };
 
 class Squares {
-  constructor(rows = 4, columns = 4, width = 50, gap = 3, appId = "app") {
+  constructor(rows = 4, columns = 4, length = 50, gap = 3, appId = "app") {
     this.rows = rows;
     this.columns = columns;
-    this.width = width;
+    this.length = length;
     this.gap = gap;
     this.root = document.getElementById(appId);
     this.squaresWrapper = document.createElement("div");
@@ -86,16 +86,16 @@ class Squares {
     let btn = document.createElement("div");
     btn.className = className;
     btn.innerHTML = content;
-    btn.style.width = this.width + "px";
-    btn.style.height = this.width + "px";
+    btn.style.width = this.length + "px";
+    btn.style.height = this.length + "px";
     return btn;
   }
 
   createSquare() {
     let square = document.createElement("div");
     square.className = "square";
-    square.style.width = this.width + "px";
-    square.style.height = this.width + "px";
+    square.style.width = this.length + "px";
+    square.style.height = this.length + "px";
     return square;
   }
 
@@ -126,10 +126,10 @@ class Squares {
       let coll = squares.filter(square => square.offsetTop == offsetTop);
 
       if (this.removeRowBtn.offsetTop === squares.slice(-1)[0].offsetTop) {
-        this.removeRowBtn.style.top = `${offsetTop - this.width - this.gap}px`;
+        this.removeRowBtn.style.top = `${offsetTop - this.length - this.gap}px`;
       }
       coll.forEach(square => square.remove());
-      this.squares.style.gridTemplateRows = `repeat(${this.rows}, ${this.width}px)`;
+      this.squares.style.gridTemplateRows = `repeat(${this.rows}, ${this.length}px)`;
     }
   }
 
@@ -144,11 +144,11 @@ class Squares {
       let coll = squares.filter(square => square.offsetLeft == offsetLeft);
       if (this.removeColBtn.offsetLeft === squares.slice(-1)[0].offsetLeft) {
         this.removeColBtn.style.left = `${
-          offsetLeft - this.width - this.gap
+          offsetLeft - this.length - this.gap
         }px`;
       }
       coll.forEach(square => square.remove());
-      this.squares.style.gridTemplateColumns = `repeat(${this.columns}, ${this.width}px)`;
+      this.squares.style.gridTemplateColumns = `repeat(${this.columns}, ${this.length}px)`;
     }
   }
 
@@ -160,8 +160,8 @@ class Squares {
     }
 
     this.squares.className = "squares";
-    this.squares.style.gridTemplateColumns = `repeat(${this.columns}, ${this.width}px)`;
-    this.squares.style.gridTemplateRows = `repeat(${this.rows}, ${this.width}px)`;
+    this.squares.style.gridTemplateColumns = `repeat(${this.columns}, ${this.length}px)`;
+    this.squares.style.gridTemplateRows = `repeat(${this.rows}, ${this.length}px)`;
     this.squares.style.gridGap = `${this.gap}px`;
 
     this.squaresWrapper.append(this.squares);
