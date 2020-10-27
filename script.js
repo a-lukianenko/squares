@@ -64,7 +64,7 @@ class Squares {
         }
       } else if (this.columns > 1 && this.rows == 1) {
         this.removeRowBtn.style.visibility = "hidden";
-        if (target.className === "removeCol") {
+        if (target.className === "removeColumn") {
           this.removeColBtn.style.visibility = "visible";
         }
       }
@@ -86,12 +86,16 @@ class Squares {
     let btn = document.createElement("div");
     btn.className = className;
     btn.innerHTML = content;
+    btn.style.width = this.width + "px";
+    btn.style.height = this.width + "px";
     return btn;
   }
 
   createSquare() {
     let square = document.createElement("div");
     square.className = "square";
+    square.style.width = this.width + "px";
+    square.style.height = this.width + "px";
     return square;
   }
 

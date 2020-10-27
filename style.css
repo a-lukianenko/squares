@@ -22,9 +22,10 @@
   justify-content: center;
   border-radius: 2px;
   background-color: #48aae6;
-  width: 50px;
-  height: 50px;
   cursor: pointer;
+  font-size: 34px;
+  font-weight: 900;
+  color: white;
 }
 
 .addRow, .addColumn {
@@ -33,18 +34,15 @@
   justify-content: center;
   border-radius: 2px;
   background-color: #f3a500;
-  width: 50px;
-  height: 50px;
   cursor: pointer;
-  margin-left: 4px;
-  margin-top: 2px;
   font-size: 34px;
   font-weight: 900;
   color: white;
+  margin-left: 4px;
+  margin-top: 2px;
   transition: background-color 0.25s ease-in-out;
 }
 .addRow:hover, .addColumn:hover {
-  cursor: pointer;
   background-color: #f6c052;
 }
 
@@ -61,29 +59,25 @@
   justify-content: center;
   border-radius: 2px;
   background-color: #b20000;
-  width: 50px;
-  height: 50px;
   cursor: pointer;
-  visibility: hidden;
   font-size: 34px;
   font-weight: 900;
   color: white;
+  position: absolute;
+  visibility: hidden;
   transition: all 0.25s ease-in-out;
 }
 .removeColumn:hover,
 .removeRow:hover {
-  cursor: pointer;
   background-color: #ca4c49;
 }
 
 .removeColumn {
-  position: absolute;
   top: -50px;
   right: 4px;
 }
 
 .removeRow {
-  position: absolute;
   top: 57px;
   left: -50px;
 }

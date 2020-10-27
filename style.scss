@@ -13,9 +13,10 @@ $blue: #48aae6;
   justify-content: center;
   border-radius: 2px;
   background-color: $color;
-  width: 50px;
-  height: 50px;
   cursor: pointer;
+  font-size: 34px;
+  font-weight: 900;
+  color: white;
 }
 // ===============
 
@@ -45,12 +46,8 @@ $blue: #48aae6;
   @include square($yellow);
   margin-left: 4px;
   margin-top: 2px;
-  font-size: 34px;
-  font-weight: 900;
-  color: white;
   transition: background-color 0.25s ease-in-out;
   &:hover {
-    cursor: pointer;
     background-color: $yellow-light;
   }
 }
@@ -65,25 +62,20 @@ $blue: #48aae6;
 .removeColumn,
 .removeRow {
   @include square($red);
+  position: absolute;
   visibility: hidden;
-  font-size: 34px;
-  font-weight: 900;
-  color: white;
   transition: all 0.25s ease-in-out;
   &:hover {
-    cursor: pointer;
     background-color: $red-light;
   }
 }
 
 .removeColumn {
-  position: absolute;
   top: -50px;
   right: 4px;
 }
 
 .removeRow {
-  position: absolute;
   top: 57px;
   left: -50px;
 }
