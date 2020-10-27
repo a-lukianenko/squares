@@ -1,0 +1,91 @@
+#app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.squaresWrapper {
+  position: relative;
+}
+
+.squares {
+  display: grid;
+  border: 2px solid lightblue;
+  border-radius: 3px;
+  padding: 2px;
+}
+
+.square {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+  background-color: #48aae6;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}
+
+.addRow, .addColumn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+  background-color: #f3a500;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  margin-left: 4px;
+  margin-top: 2px;
+  font-size: 34px;
+  font-weight: 900;
+  color: white;
+  transition: background-color 0.25s ease-in-out;
+}
+.addRow:hover, .addColumn:hover {
+  cursor: pointer;
+  background-color: #f6c052;
+}
+
+.addColumn {
+  position: absolute;
+  top: 2px;
+  right: -50px;
+}
+
+.removeColumn,
+.removeRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+  background-color: #b20000;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  visibility: hidden;
+  font-size: 34px;
+  font-weight: 900;
+  color: white;
+  transition: all 0.25s ease-in-out;
+}
+.removeColumn:hover,
+.removeRow:hover {
+  cursor: pointer;
+  background-color: #ca4c49;
+}
+
+.removeColumn {
+  position: absolute;
+  top: -50px;
+  right: 4px;
+}
+
+.removeRow {
+  position: absolute;
+  top: 57px;
+  left: -50px;
+}
+
+/*# sourceMappingURL=style.css.map */

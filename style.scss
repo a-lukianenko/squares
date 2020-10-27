@@ -1,0 +1,89 @@
+// Variables
+$red: #b20000;
+$red-light: #ca4c49;
+$yellow: #f3a500;
+$yellow-light: #f6c052;
+$blue: #48aae6;
+// ===============
+
+// Mixins
+@mixin square($color) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+  background-color: $color;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}
+// ===============
+
+#app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.squaresWrapper {
+  position: relative;
+}
+
+.squares {
+  display: grid;
+  border: 2px solid lightblue;
+  border-radius: 3px;
+  padding: 2px;
+}
+
+.square {
+  @include square($blue);
+}
+
+.addRow {
+  @include square($yellow);
+  margin-left: 4px;
+  margin-top: 2px;
+  font-size: 34px;
+  font-weight: 900;
+  color: white;
+  transition: background-color 0.25s ease-in-out;
+  &:hover {
+    cursor: pointer;
+    background-color: $yellow-light;
+  }
+}
+
+.addColumn {
+  @extend .addRow;
+  position: absolute;
+  top: 2px;
+  right: -50px;
+}
+
+.removeColumn,
+.removeRow {
+  @include square($red);
+  visibility: hidden;
+  font-size: 34px;
+  font-weight: 900;
+  color: white;
+  transition: all 0.25s ease-in-out;
+  &:hover {
+    cursor: pointer;
+    background-color: $red-light;
+  }
+}
+
+.removeColumn {
+  position: absolute;
+  top: -50px;
+  right: 4px;
+}
+
+.removeRow {
+  position: absolute;
+  top: 57px;
+  left: -50px;
+}
