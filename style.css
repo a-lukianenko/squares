@@ -17,9 +17,6 @@
 }
 
 .square {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   border-radius: 2px;
   background-color: #48aae6;
   cursor: pointer;
@@ -29,9 +26,6 @@
 }
 
 .addRow, .addColumn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   border-radius: 2px;
   background-color: #f3a500;
   cursor: pointer;
@@ -54,9 +48,6 @@
 
 .removeColumn,
 .removeRow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   border-radius: 2px;
   background-color: #b20000;
   cursor: pointer;
@@ -64,7 +55,8 @@
   font-weight: 900;
   color: white;
   position: absolute;
-  visibility: hidden;
+  display: none;
+  text-align: center;
   transition: all 0.25s ease-in-out;
 }
 .removeColumn:hover,

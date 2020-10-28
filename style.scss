@@ -8,9 +8,6 @@ $blue: #48aae6;
 
 // Mixins
 @mixin square($color) {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   border-radius: 2px;
   background-color: $color;
   cursor: pointer;
@@ -64,7 +61,8 @@ $blue: #48aae6;
 .removeRow {
   @include square($red);
   position: absolute;
-  visibility: hidden;
+  display: none;
+  text-align: center;
   transition: all 0.25s ease-in-out;
   &:hover {
     background-color: $red-light;

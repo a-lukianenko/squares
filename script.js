@@ -27,23 +27,23 @@ class Squares {
       if (target.className === "square") {
         if (this.columns > 1) {
           this.removeColBtn.style.left = target.offsetLeft + "px";
-          this.removeColBtn.style.visibility = "visible";
+          this.removeColBtn.style.display = "block";
         }
         if (this.rows > 1) {
           this.removeRowBtn.style.top = target.offsetTop + "px";
-          this.removeRowBtn.style.visibility = "visible";
+          this.removeRowBtn.style.display = "block";
         }
       }
     });
 
-    this.squares.addEventListener("mouseout", event => {
+    this.squares.addEventListener("mouseleave", event => {
       const relatedTarget = event.relatedTarget;
       if (
         relatedTarget.className != "removeColumn" ||
         relatedTarget.className != "removeRow"
       ) {
-        this.removeColBtn.style.visibility = this.removeRowBtn.style.visibility =
-          "hidden";
+        this.removeColBtn.style.display = "none";
+        this.removeRowBtn.style.display = "none";
       }
     });
 
@@ -54,18 +54,18 @@ class Squares {
           target.className === "removeRow" ||
           target.className === "removeColumn"
         ) {
-          this.removeColBtn.style.visibility = this.removeRowBtn.style.visibility =
-            "visible";
+          this.removeColBtn.style.display = this.removeRowBtn.style.display =
+            "block";
         }
       } else if (this.rows > 1 && this.columns == 1) {
-        this.removeColBtn.style.visibility = "hidden";
+        this.removeColBtn.style.display = "none";
         if (target.className === "removeRow") {
-          this.removeRowBtn.style.visibility = "visible";
+          this.removeRowBtn.style.display = "block";
         }
       } else if (this.columns > 1 && this.rows == 1) {
-        this.removeRowBtn.style.visibility = "hidden";
+        this.removeRowBtn.style.display = "none";
         if (target.className === "removeColumn") {
-          this.removeColBtn.style.visibility = "visible";
+          this.removeColBtn.style.display = "block";
         }
       }
     });
@@ -76,8 +76,8 @@ class Squares {
         target.className === "removeRow" ||
         target.className === "removeColumn"
       ) {
-        this.removeColBtn.style.visibility = this.removeRowBtn.style.visibility =
-          "hidden";
+        this.removeColBtn.style.display = this.removeRowBtn.style.display =
+          "none";
       }
     });
   }
@@ -86,7 +86,9 @@ class Squares {
     let btn = document.createElement("div");
     btn.className = className;
     btn.innerHTML = content;
-    btn.style.width = btn.style.height = this.length + "px";
+    btn.style.width = btn.style.height = btn.style.lineHeight =
+      this.length + "px";
+    btn.style.textAlign = "center";
     return btn;
   }
 
@@ -116,15 +118,11 @@ class Squares {
   removeRow() {
     if (this.rows > 1) {
       let offsetTop = this.removeRowBtn.offsetTop;
-      this.removeRowBtn.style.visibility = "hidden";
-
       let squares = [...document.querySelectorAll(".square")].slice(
         -this.columns
       );
 
-      if (offsetTop === squares.slice(-1)[0].offsetTop) {
-        this.removeRowBtn.style.top = offsetTop - this.length - this.gap + "px";
-      }
+      this.removeRowBtn.style.display = "none";
       this.rows--;
       squares.forEach(square => square.remove());
       this.squares.style.gridTemplateRows = `repeat(${this.rows}, ${this.length}px)`;
@@ -134,7 +132,7 @@ class Squares {
   removeCol() {
     if (this.columns > 1) {
       let offsetLeft = this.removeColBtn.offsetLeft;
-      this.removeColBtn.style.visibility = "hidden";
+      this.removeColBtn.style.display = "none";
 
       let squares = [...document.querySelectorAll(".square")];
       let coll = squares.filter((square, i) => (i + 1) % this.columns === 0);
