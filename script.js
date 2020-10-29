@@ -3,14 +3,13 @@ window.onload = function () {
 };
 
 class Squares {
-  constructor(rows = 4, columns = 4, size = 50, gap = 3, appId = "app") {
+  constructor(rows = 4, columns = 4, size = 50, appId = "app") {
     this.rows = rows;
     this.columns = columns;
     this.size = size;
-    this.gap = gap;
     this.root = document.getElementById(appId);
     this.squaresWrapper = document.createElement("div");
-    this.squares = document.createElement("div");
+    this.squares = document.createElement("table");
 
     this.addRowBtn = this.createBtn("addRow", "&plus;");
     this.addRowBtn.addEventListener("click", this.addRow.bind(this));
@@ -81,21 +80,20 @@ class Squares {
       }
     });
 
-    this.squaresWrapper.className = "squaresWrapper";
-
-    for (let i = 1; i <= this.columns * this.rows; i++) {
-      this.squares.append(this.createSquare());
+    for (let i = 1; i <= this.rows; i++) {
+      this.squares.append(this.createRowWithSquares());
     }
-
     this.squares.className = "squares";
-    this.squares.style.gridTemplate = `repeat(${this.columns}, ${this.size}px) / 
-                                       repeat(${this.rows}, ${this.size}px)`;
-    this.squares.style.gridGap = this.gap + "px";
 
+    this.squaresWrapper.className = "squaresWrapper";
     this.squaresWrapper.append(this.squares);
 
-    this.squares.after(this.addRowBtn, this.removeRowBtn);
-    this.squares.before(this.addColBtn, this.removeColBtn);
+    this.squares.after(
+      this.addRowBtn,
+      this.addColBtn,
+      this.removeRowBtn,
+      this.removeColBtn
+    );
 
     this.root.append(this.squaresWrapper);
   }
@@ -110,27 +108,29 @@ class Squares {
     return btn;
   }
 
+  createRowWithSquares() {
+    const row = document.createElement("tr");
+    for (let i = 1; i <= this.columns; i++) {
+      row.append(document.createElement("td"));
+    }
+    return row;
+  }
+
   createSquare() {
-    const square = document.createElement("div");
+    const square = document.createElement("td");
     square.className = "square";
     square.style.width = square.style.height = this.size + "px";
     return square;
   }
 
   addRow() {
-    for (let i = 1; i <= this.columns; i++) {
-      this.squares.append(this.createSquare());
-    }
     this.rows++;
-    this.squares.style.gridTemplateRows = `repeat(${this.rows}, ${this.size}px)`;
+    this.squares.append(this.createRowWithSquares());
   }
 
   addCol() {
-    for (let i = 1; i <= this.rows; i++) {
-      this.squares.append(this.createSquare());
-    }
     this.columns++;
-    this.squares.style.gridTemplateColumns = `repeat(${this.columns}, ${this.size}px)`;
+    [...this.squares.children].forEach(row => row.append(this.createSquare()));
   }
 
   removeRow() {
