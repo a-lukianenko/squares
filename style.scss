@@ -36,9 +36,9 @@ $blue: #48aae6;
   padding: 2px;
 }
 
-// .square {
-// @include square($blue);
-// }
+.square {
+  @include square($blue);
+}
 
 td {
   width: 50px;
@@ -72,7 +72,9 @@ td {
 .removeRow {
   @include square($red);
   position: absolute;
-  display: block;
+  // display: block;
+  // visibility: hidden;
+  opacity: 0;
   text-align: center;
   transition: all 0.25s ease-in-out;
   &:hover {
