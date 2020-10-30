@@ -1,9 +1,9 @@
 window.onload = function () {
-  new Squares();
+  new Squares("app");
 };
 
 class Squares {
-  constructor(rows = 4, columns = 4, appId = "app") {
+  constructor(appId, rows = 4, columns = 4) {
     this.rows = rows;
     this.columns = columns;
     this.targetCell = null;
@@ -66,7 +66,7 @@ class Squares {
       this.removeColBtn
     );
 
-    // "mount" Sqaures
+    // "mount" Squares
     this.root.append(this.squaresWrapper);
   }
 
@@ -96,7 +96,7 @@ class Squares {
   }
 
   addCol() {
-    [...this.squares.children].forEach(row => row.append(this.createSquare()));
+    this.squares.childNodes.forEach(row => row.append(this.createSquare()));
     this.columns++;
   }
 
@@ -108,12 +108,10 @@ class Squares {
 
   removeCol() {
     this.removeColBtn.classList.remove("fullOpacity");
-    const siblings = [...this.targetCell.parentNode.children];
-    const index = siblings.indexOf(this.targetCell);
+    const siblings = this.targetCell.parentNode.childNodes;
+    const index = [...siblings].indexOf(this.targetCell); // "childNodes" doesn't have indexOf()
 
-    [...this.squares.children].forEach(row =>
-      [...row.children][index].remove()
-    );
+    this.squares.childNodes.forEach(row => row.childNodes[index].remove());
     this.columns--;
   }
 }
