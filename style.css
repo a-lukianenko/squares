@@ -9,37 +9,35 @@
   position: relative;
 }
 
-.squares {
-  border: 2px solid lightblue;
-  border-radius: 3px;
-  padding: 2px;
-}
-
-.square {
-  border-radius: 2px;
-  background-color: #48aae6;
-  cursor: pointer;
-  font-size: 34px;
-  font-weight: 900;
-  color: white;
+table {
+  border: 2px solid #48aae6;
 }
 
 td {
   width: 50px;
   height: 50px;
+  line-height: 50px;
+  cursor: pointer;
+  font-size: 22px;
+  font-weight: 900;
+  text-align: center;
   background-color: #48aae6;
+  color: white;
 }
 
 .addRow {
-  border-radius: 2px;
-  background-color: #f3a500;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
   cursor: pointer;
-  font-size: 34px;
+  font-size: 22px;
   font-weight: 900;
+  text-align: center;
+  background-color: #f3a500;
   color: white;
   position: absolute;
-  top: 100%;
-  left: 5px;
+  top: calc(100% + 2px);
+  left: 3px;
   transition: background-color 0.25s ease-in-out;
 }
 .addRow:hover {
@@ -47,15 +45,18 @@ td {
 }
 
 .addColumn {
-  border-radius: 2px;
-  background-color: #f3a500;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
   cursor: pointer;
-  font-size: 34px;
+  font-size: 22px;
   font-weight: 900;
+  text-align: center;
+  background-color: #f3a500;
   color: white;
   position: absolute;
-  top: 5px;
-  left: 100%;
+  top: 3px;
+  left: calc(100% + 2px);
   transition: background-color 0.25s ease-in-out;
 }
 .addColumn:hover {
@@ -64,15 +65,18 @@ td {
 
 .removeColumn,
 .removeRow {
-  border-radius: 2px;
-  background-color: #b20000;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
   cursor: pointer;
-  font-size: 34px;
+  font-size: 22px;
   font-weight: 900;
+  text-align: center;
+  background-color: #b20000;
   color: white;
   position: absolute;
   opacity: 0;
-  text-align: center;
+  pointer-events: none;
   transition: all 0.25s ease-in-out;
 }
 .removeColumn:hover,
@@ -82,11 +86,17 @@ td {
 
 .removeColumn {
   bottom: 100%;
-  right: 4px;
+  box-shadow: inset 0px -3px 0 -1px white;
 }
 
 .removeRow {
   right: 100%;
+  box-shadow: inset -3px 0px 0 -1px white;
+}
+
+.fullOpacity {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 /*# sourceMappingURL=style.css.map */

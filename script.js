@@ -3,118 +3,70 @@ window.onload = function () {
 };
 
 class Squares {
-  constructor(
-    rows = 4,
-    columns = 4,
-    size = 50,
-    borderSpacing = 2,
-    appId = "app"
-  ) {
+  constructor(rows = 4, columns = 4, appId = "app") {
     this.rows = rows;
     this.columns = columns;
-    this.size = size;
-    this.borderSpaceing = borderSpacing;
+    this.targetCell = null;
     this.root = document.getElementById(appId);
     this.squaresWrapper = document.createElement("div");
     this.squares = document.createElement("table");
-    this.squares.borderSpacing = borderSpacing;
 
     this.addRowBtn = this.createBtn("addRow", "&plus;");
     this.addColBtn = this.createBtn("addColumn", "&plus;");
-
-    this.addRowBtn.addEventListener("click", this.addRow.bind(this));
-    this.addColBtn.addEventListener("click", this.addCol.bind(this));
+    this.addRowBtn.onclick = this.addRow.bind(this);
+    this.addColBtn.onclick = this.addCol.bind(this);
 
     this.removeRowBtn = this.createBtn("removeRow", "&minus;");
     this.removeColBtn = this.createBtn("removeColumn", "&minus;");
+    this.removeRowBtn.onclick = this.removeRow.bind(this);
+    this.removeColBtn.onclick = this.removeCol.bind(this);
+    this.removeRowBtn.onmouseleave = () =>
+      this.removeRowBtn.classList.remove("fullOpacity");
+    this.removeColBtn.onmouseleave = () =>
+      this.removeColBtn.classList.remove("fullOpacity");
 
-    this.removeRowBtn.addEventListener("click", this.removeRow.bind(this));
-    this.removeColBtn.addEventListener("click", this.removeCol.bind(this));
-
-    this.squares.addEventListener("mouseover", event => {
+    this.squares.onmouseover = event => {
       const target = event.target;
-      if (target.className === "square") {
-        // if (this.columns > 1) {
-        this.removeColBtn.style.left =
-          target.offsetLeft + this.borderSpaceing + "px";
-        this.removeColBtn.style.opacity = 1;
-        // }
-        // if (this.rows > 1) {
-        this.removeRowBtn.style.top =
-          target.offsetTop + this.borderSpaceing + "px";
-        this.removeRowBtn.style.opacity = 1;
-        // }
-      }
-    });
+      if (target.tagName === "TD") {
+        this.removeColBtn.style.left = target.offsetLeft + 2 + "px";
+        this.columns > 1
+          ? this.removeColBtn.classList.add("fullOpacity")
+          : null;
 
-    this.squares.addEventListener("mouseleave", event => {
+        this.removeRowBtn.style.top = target.offsetTop + 2 + "px";
+        this.rows > 1 ? this.removeRowBtn.classList.add("fullOpacity") : null;
+
+        this.targetCell = target;
+      }
+    };
+
+    this.squares.onmouseleave = event => {
       const relatedTarget = event.relatedTarget;
-      if (
-        relatedTarget.className !== "removeColumn" &&
-        relatedTarget.className !== "removeRow"
-      ) {
-        this.removeColBtn.style.opacity = 0;
-        this.removeRowBtn.style.opacity = 0;
+      if (relatedTarget === this.removeColBtn) {
+        this.removeRowBtn.classList.remove("fullOpacity");
+      } else if (relatedTarget === this.removeRowBtn) {
+        this.removeColBtn.classList.remove("fullOpacity");
+      } else {
+        this.removeColBtn.classList.remove("fullOpacity");
+        this.removeRowBtn.classList.remove("fullOpacity");
       }
-    });
-
-    this.removeRowBtn.onmouseleave = function () {
-      this.style.opacity = 0;
     };
 
-    this.removeColBtn.onmouseleave = function () {
-      this.style.opacity = 0;
-    };
-
-    // document.addEventListener("mouseover", event => {
-    //   const target = event.target;
-    //   if (this.rows > 1 && this.columns > 1) {
-    //     if (
-    //       target.className === "removeRow" ||
-    //       target.className === "removeColumn"
-    //     ) {
-    //       this.removeColBtn.style.display = this.removeRowBtn.style.display =
-    //         "block";
-    //     }
-    //   } else if (this.rows > 1 && this.columns == 1) {
-    //     this.removeColBtn.style.display = "none";
-    //     if (target.className === "removeRow") {
-    //       this.removeRowBtn.style.display = "block";
-    //     }
-    //   } else if (this.columns > 1 && this.rows == 1) {
-    //     this.removeRowBtn.style.display = "none";
-    //     if (target.className === "removeColumn") {
-    //       this.removeColBtn.style.display = "block";
-    //     }
-    //   }
-    // });
-
-    // document.addEventListener("mouseout", event => {
-    //   const target = event.target;
-    //   if (
-    //     target.className === "removeRow" ||
-    //     target.className === "removeColumn"
-    //   ) {
-    //     this.removeColBtn.style.display = this.removeRowBtn.style.display =
-    //       "none";
-    //   }
-    // });
-
+    // Populate table with rows and cells
     for (let i = 1; i <= this.rows; i++) {
       this.squares.append(this.createRowWithSquares());
     }
-    this.squares.className = "squares";
 
     this.squaresWrapper.className = "squaresWrapper";
-    this.squaresWrapper.append(this.squares);
-
-    this.squares.after(
+    this.squaresWrapper.append(
+      this.squares,
       this.addRowBtn,
       this.addColBtn,
       this.removeRowBtn,
       this.removeColBtn
     );
 
+    // "mount" Sqaures
     this.root.append(this.squaresWrapper);
   }
 
@@ -122,10 +74,12 @@ class Squares {
     const btn = document.createElement("div");
     btn.className = className;
     btn.innerHTML = content;
-    btn.style.width = btn.style.height = btn.style.lineHeight =
-      this.size + "px";
-    btn.style.textAlign = "center";
     return btn;
+  }
+
+  createSquare() {
+    const square = document.createElement("td");
+    return square;
   }
 
   createRowWithSquares() {
@@ -136,50 +90,30 @@ class Squares {
     return row;
   }
 
-  createSquare() {
-    const square = document.createElement("td");
-    square.className = "square";
-    square.style.width = square.style.height = this.size + "px";
-    return square;
-  }
-
   addRow() {
-    this.rows++;
     this.squares.append(this.createRowWithSquares());
+    this.rows++;
   }
 
   addCol() {
-    this.columns++;
     [...this.squares.children].forEach(row => row.append(this.createSquare()));
+    this.columns++;
   }
 
   removeRow() {
-    if (this.rows > 1) {
-      const offsetTop = this.removeRowBtn.offsetTop;
-      const squares = [...document.querySelectorAll(".square")].slice(
-        -this.columns
-      );
-
-      this.removeRowBtn.style.display = "none";
-      this.rows--;
-      squares.forEach(square => square.remove());
-      // this.squares.style.gridTemplateRows = `repeat(${this.rows}, ${this.size}px)`;
-    }
+    this.removeRowBtn.classList.remove("fullOpacity");
+    this.targetCell.parentNode.remove();
+    this.rows--;
   }
 
   removeCol() {
-    if (this.columns > 1) {
-      const offsetLeft = this.removeColBtn.offsetLeft;
-      this.removeColBtn.style.display = "none";
+    this.removeColBtn.classList.remove("fullOpacity");
+    const siblings = [...this.targetCell.parentNode.children];
+    const index = siblings.indexOf(this.targetCell);
 
-      let squares = [...document.querySelectorAll(".square")];
-      let coll = squares.filter((square, i) => (i + 1) % this.columns === 0);
-      if (offsetLeft === squares.slice(-1)[0].offsetLeft) {
-        this.removeColBtn.style.left = offsetLeft - this.size - this.gap + "px";
-      }
-      this.columns--;
-      coll.forEach(square => square.remove());
-      // this.squares.style.gridTemplateColumns = `repeat(${this.columns}, ${this.size}px)`;
-    }
+    [...this.squares.children].forEach(row =>
+      [...row.children][index].remove()
+    );
+    this.columns--;
   }
 }
